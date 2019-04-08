@@ -15,6 +15,9 @@ import com.google.android.gms.maps.MapFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG_FAVORITES_FRAG = "favorites_frag";
+    private static final String TAG_HOME_FRAG = "home_frag";
+
     private BottomNavigationView bottomNavigationView;
     private Fragment fragment;
     private FragmentManager fm;
@@ -45,12 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.favorites:
                         if (!(fragment instanceof FavoritesListFragment)){
-                            replaceFragment(FavoritesListFragment.newInstance());
+                            replaceFragment(FavoritesListFragment.newInstance(), TAG_FAVORITES_FRAG);
                         }
                         break;
                     case R.id.map:
                         if (!(fragment instanceof HomeFragment)){
-                            replaceFragment(HomeFragment.newInstance());
+                            replaceFragment(HomeFragment.newInstance(), TAG_FAVORITES_FRAG);
                         }
                         break;
                 }
@@ -59,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment, String tag){
         this.fragment = fragment;
         fm.beginTransaction()
                 .replace(R.id.frag_container, fragment)
+                .addToBackStack(tag)
                 .commit();
     }
 }

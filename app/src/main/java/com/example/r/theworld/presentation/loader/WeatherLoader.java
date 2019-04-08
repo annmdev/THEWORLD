@@ -1,9 +1,7 @@
-package com.example.r.theworld.presentation.weatherLoader;
+package com.example.r.theworld.presentation.loader;
 
 import com.example.r.theworld.presentation.data.WeatherService;
 import com.example.r.theworld.presentation.model.WeatherResponse;
-
-import javax.security.auth.callback.Callback;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -25,7 +23,7 @@ public class WeatherLoader {
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 if (response.isSuccessful()){
                     listener.setData(response);
-                }
+                } else listener.onUnsuccessfulCall();
             }
 
             @Override
@@ -43,5 +41,7 @@ public class WeatherLoader {
 
     public interface Listener{
         void setData(Response<WeatherResponse> data);
+
+        void onUnsuccessfulCall();
     }
 }

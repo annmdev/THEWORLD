@@ -17,6 +17,16 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
 
+        <TextView
+            android:id="@+id/no_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="can't find the weather"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"
+            android:textColor="@color/grey"/>
+
         <include layout="@layout/progress_bar" />
 
         <RelativeLayout

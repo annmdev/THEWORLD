@@ -42,7 +42,6 @@ public class FavoritesListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
 
-
         adapter.addList(list);
 
     }

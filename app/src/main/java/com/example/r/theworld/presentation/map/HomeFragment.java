@@ -10,13 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.r.theworld.R;
 import com.example.r.theworld.presentation.common.BaseMapFragment;
 import com.example.r.theworld.presentation.favorites.FavoritesDatabase;
 import com.example.r.theworld.presentation.model.WeatherResponse;
-import com.example.r.theworld.presentation.weatherLoader.WeatherLoader;
+import com.example.r.theworld.presentation.loader.WeatherLoader;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -37,9 +36,9 @@ public class HomeFragment extends BaseMapFragment {
     private RelativeLayout shortWeatherInfoLayout;
     private ProgressBar progressBar;
     private CheckBox favorites;
+    private TextView noInfoTV;
 
     private WeatherLoader weatherLoader;
-
     private String location;
 
     public static HomeFragment newInstance() {
@@ -73,9 +72,14 @@ public class HomeFragment extends BaseMapFragment {
 
                     favorites.setChecked(favoritesDatabase.contains(location));
 
-                    progressBar.setVisibility(View.GONE);
-                    shortWeatherInfoLayout.setVisibility(View.VISIBLE);
+                    visible();
+                }
 
+                @Override
+                public void onUnsuccessfulCall() {
+                    Log.d("chchchchh", "onUnsuccessfulCall: ");
+                    noInfoTV.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
             });
         }
@@ -107,8 +111,7 @@ public class HomeFragment extends BaseMapFragment {
                 }
 
                 if (progressBar.getVisibility() == View.GONE) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    shortWeatherInfoLayout.setVisibility(View.GONE);
+                    invisible();
                 }
 
                 Log.d("favorites", "onMapClick: " + latLng.latitude + "    " + latLng.longitude);
@@ -128,6 +131,19 @@ public class HomeFragment extends BaseMapFragment {
 
     }
 
+    private void visible(){
+        progressBar.setVisibility(View.GONE);
+        shortWeatherInfoLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void invisible(){
+        if (noInfoTV.getVisibility() == View.VISIBLE){
+            noInfoTV.setVisibility(View.GONE);
+        }
+        progressBar.setVisibility(View.VISIBLE);
+        shortWeatherInfoLayout.setVisibility(View.GONE);
+    }
+
     private void initViews(View view) {
         shortWeatherInfoLayout = view.findViewById(R.id.weather_info_layout);
         mainTemp = view.findViewById(R.id.temp_main);
@@ -135,6 +151,7 @@ public class HomeFragment extends BaseMapFragment {
         description = view.findViewById(R.id.description);
         progressBar = view.findViewById(R.id.progress_bar);
         favorites = view.findViewById(R.id.add_to_favorites);
+        noInfoTV = view.findViewById(R.id.no_info_tv);
     }
 
 }

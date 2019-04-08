@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/home/r/Загрузки/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/toggle/ic_star_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/r/Загрузки/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -33,9 +33,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_star_unchecked" />
+                                      <entry key="outputName" value="ic_search" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="b2b9e1" />
+                                      <entry key="themeColor" value="c8cae1" />
                                     </map>
                                   </option>
                                 </PersistentState>
