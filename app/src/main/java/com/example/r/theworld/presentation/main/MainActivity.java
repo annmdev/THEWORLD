@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.r.theworld.R;
@@ -34,26 +35,30 @@ public class MainActivity extends AppCompatActivity {
         setOnBottomNavViewClickListener();
 
         if (fragment == null) {
-            fragment =  HomeFragment.newInstance();
+            fragment = HomeFragment.newInstance();
             fm.beginTransaction()
                     .add(R.id.frag_container, fragment)
+                    .addToBackStack(TAG_HOME_FRAG)
                     .commit();
         }
     }
 
-    private void setOnBottomNavViewClickListener(){
+    private void setOnBottomNavViewClickListener() {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
+
+
+                switch (menuItem.getItemId()) {
                     case R.id.favorites:
-                        if (!(fragment instanceof FavoritesListFragment)){
+                        if (!(fragment instanceof FavoritesListFragment)) {
                             replaceFragment(FavoritesListFragment.newInstance(), TAG_FAVORITES_FRAG);
                         }
                         break;
                     case R.id.map:
-                        if (!(fragment instanceof HomeFragment)){
-                            replaceFragment(HomeFragment.newInstance(), TAG_FAVORITES_FRAG);
+                        if (!(fragment instanceof HomeFragment)) {
+                            replaceFragment(HomeFragment.newInstance(), TAG_HOME_FRAG);
+
                         }
                         break;
                 }
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void replaceFragment(Fragment fragment, String tag){
+    private void replaceFragment(Fragment fragment, String tag) {
         this.fragment = fragment;
         fm.beginTransaction()
                 .replace(R.id.frag_container, fragment)

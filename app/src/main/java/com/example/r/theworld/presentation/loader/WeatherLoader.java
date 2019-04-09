@@ -17,7 +17,11 @@ public class WeatherLoader {
     }
 
     public void loadWeather(double lat, double lng){
-        call = weatherService.getApi().getWeatherForecast(lat + ", " + lng, 5);
+        loadWeather(lat + ", " + lng);
+    }
+
+    public void loadWeather(String location){
+        call = weatherService.getApi().getWeatherForecast(location, 5);
         call.enqueue(new retrofit2.Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
