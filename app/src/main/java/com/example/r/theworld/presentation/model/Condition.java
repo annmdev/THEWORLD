@@ -7,5 +7,6 @@ public class Condition {
     @SerializedName("text")
     public String description;
 
-
+    @SerializedName("icon")
+    public String icon;
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.r.theworld.presentation.data.db.ReaderBdHelper;
 import com.example.r.theworld.presentation.data.db.ReaderContract;
@@ -48,6 +49,8 @@ public class FavoritesDatabase {
         db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ReaderContract.Entry.COLUMN_NAME_PLACE, location);
+
+        Log.d("favorites", "put: put" + location);
 
         db.insert(ReaderContract.Entry.TABLE_NAME, null, values);
 

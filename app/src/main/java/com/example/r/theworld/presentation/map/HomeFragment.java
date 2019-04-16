@@ -1,6 +1,8 @@
 package com.example.r.theworld.presentation.map;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -8,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,15 +21,16 @@ import android.widget.TextView;
 import com.example.r.theworld.R;
 import com.example.r.theworld.presentation.common.BaseMapFragment;
 import com.example.r.theworld.presentation.favorites.FavoritesDatabase;
+import com.example.r.theworld.presentation.loader.AssetsData;
 import com.example.r.theworld.presentation.model.WeatherResponse;
 import com.example.r.theworld.presentation.loader.WeatherLoader;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
 
@@ -34,6 +39,7 @@ public class HomeFragment extends BaseMapFragment {
     private Marker marker;
     private BottomSheetBehavior bottomSheetBehavior;
     private FavoritesDatabase favoritesDatabase;
+    private AssetsData assetsData;
 
     private TextView mainTemp;
     private TextView place;
@@ -43,6 +49,7 @@ public class HomeFragment extends BaseMapFragment {
     private CheckBox favorites;
     private TextView noInfoTV;
     private Toolbar toolbar;
+    private ImageView icon;
 
     private WeatherLoader weatherLoader;
     private WeatherLoader searchLoader;
@@ -51,6 +58,7 @@ public class HomeFragment extends BaseMapFragment {
     private GoogleMap googleMap;
 
     public static HomeFragment newInstance() {
+        Log.d("78ahf9ash98a", "newInstance: ");
         return new HomeFragment();
     }
 
@@ -71,6 +79,8 @@ public class HomeFragment extends BaseMapFragment {
         initViews(view);
         inflateMenu();
 
+        toolbar.setTitle("Map");
+
         if (weatherLoader == null) {
             weatherLoader = new WeatherLoader(new WeatherLoader.Listener() {
                 @Override
@@ -88,13 +98,13 @@ public class HomeFragment extends BaseMapFragment {
             });
         }
 
-        if (searchLoader == null){
+        if (searchLoader == null) {
             searchLoader = new WeatherLoader(new WeatherLoader.Listener() {
                 @Override
                 public void setData(Response<WeatherResponse> data) {
                     LatLng latLng = new LatLng(data.body().location.lat, data.body().location.lon);
-                    onMapPosition(latLng);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+                    HomeFragment.this.setOnMarker(latLng);
+                    HomeFragment.this.goToPosition(latLng);
 
                     HomeFragment.this.setData(data);
                 }
@@ -109,19 +119,22 @@ public class HomeFragment extends BaseMapFragment {
                 }
             });
         }
-
         favorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    favoritesDatabase.put(location);
+                    if (!favoritesDatabase.contains(location)) {
+                        favoritesDatabase.put(location);
+                    }
                 } else {
                     favoritesDatabase.delete(location);
                 }
-
-                Log.d("favorites", "onMapClick: " + location);
             }
         });
+
+        if (assetsData == null){
+            assetsData = new AssetsData(getActivity().getAssets());
+        }
 
     }
 
@@ -135,24 +148,59 @@ public class HomeFragment extends BaseMapFragment {
             @Override
             public void onMapClick(LatLng latLng) {
 
+                searchLoader.cancelCall();
                 weatherLoader.cancelCall();
-                onMapPosition(latLng);
+                HomeFragment.this.setOnMarker(latLng);
+                HomeFragment.this.setSearchingStateOnBottom();
 
                 weatherLoader.loadWeather(latLng.latitude, latLng.longitude);
 
             }
         });
+        try {
+            googleMap.setMyLocationEnabled(true);
+        } catch (SecurityException ex) {
+
+        }
+
+        googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                return false;
+            }
+        });
+
+        googleMap.setOnMyLocationClickListener(new GoogleMap.OnMyLocationClickListener() {
+            @Override
+            public void onMyLocationClick(@NonNull Location location) {
+                double v1 = location.getLatitude();
+                double v2 = location.getLongitude();
+
+                LatLng latLng = new LatLng(v1, v2);
+
+                setOnMarker(latLng);
+                setSearchingStateOnBottom();
+                goToPosition(latLng);
+
+                weatherLoader.loadWeather(v1, v2);
+            }
+        });
     }
 
-    private void visible(){
+    private void goToPosition(LatLng latLng) {
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 3));
+    }
+
+    private void visible() {
         progressBar.setVisibility(View.GONE);
         shortWeatherInfoLayout.setVisibility(View.VISIBLE);
     }
 
-    private void invisible(){
-        if (noInfoTV.getVisibility() == View.VISIBLE){
+    private void invisible() {
+        if (noInfoTV.getVisibility() == View.VISIBLE) {
             noInfoTV.setVisibility(View.GONE);
         }
+        place.setText("");
         progressBar.setVisibility(View.VISIBLE);
         shortWeatherInfoLayout.setVisibility(View.GONE);
     }
@@ -166,9 +214,10 @@ public class HomeFragment extends BaseMapFragment {
         favorites = view.findViewById(R.id.add_to_favorites);
         noInfoTV = view.findViewById(R.id.no_info_tv);
         toolbar = view.findViewById(R.id.toolbar);
+        icon = view.findViewById(R.id.icon_desc);
     }
 
-    private void inflateMenu(){
+    private void inflateMenu() {
         toolbar.inflateMenu(R.menu.menu_toolbar);
 
         MenuItem searchItem = toolbar.getMenu().findItem(R.id.search_item);
@@ -178,6 +227,7 @@ public class HomeFragment extends BaseMapFragment {
             public boolean onQueryTextSubmit(String query) {
 
                 searchView.clearFocus();
+                HomeFragment.this.setSearchingStateOnBottom();
                 searchLoader.loadWeather(query);
 
                 return true;
@@ -191,31 +241,35 @@ public class HomeFragment extends BaseMapFragment {
 
     }
 
-    private void onMapPosition(LatLng latLng){
-        if (marker != null) {
-            marker.remove();
-        }
+    private void setSearchingStateOnBottom() {
 
         if (progressBar.getVisibility() == View.GONE) {
             invisible();
         }
 
-        Log.d("favorites", "onMapClick: " + latLng.latitude + "    " + latLng.longitude);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+    }
+
+    private void setOnMarker(LatLng latLng) {
+        if (marker != null) {
+            marker.remove();
+        }
 
 
         marker = googleMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_finish)));
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
     }
 
-    private void setData(Response<WeatherResponse> data){
+    private void setData(Response<WeatherResponse> data) {
+        noInfoTV.setVisibility(View.GONE);
         location = data.body().location.name;
         mainTemp.setText(data.body().current.temp + "deg");
         description.setText(data.body().current.condition.description);
         place.setText(location + ", " + data.body().location.country);
 
+        icon.setImageDrawable(assetsData.getDrawable(data.body().current.condition.icon.substring(16)));
         favorites.setChecked(favoritesDatabase.contains(location));
 
         visible();

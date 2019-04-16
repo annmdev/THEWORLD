@@ -26,6 +26,7 @@ public class WeatherLoader {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 if (response.isSuccessful()){
+                    response.body().current.temp = (int) Math.floor(response.body().current.temp_c);
                     listener.setData(response);
                 } else listener.onUnsuccessfulCall();
             }
