@@ -265,7 +265,7 @@ public class HomeFragment extends BaseMapFragment {
     private void setData(Response<WeatherResponse> data) {
         noInfoTV.setVisibility(View.GONE);
         location = data.body().location.name;
-        mainTemp.setText(data.body().current.temp + "deg");
+        mainTemp.setText(data.body().current.temp + "°C");
         description.setText(data.body().current.condition.description);
         place.setText(location + ", " + data.body().location.country);
 
