@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/design_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="340dp"
+    android:layout_height="344dp"
     android:focusable="true"
     android:clickable="true"
     android:background="@android:color/white"
     android:orientation="vertical"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="100dp"
+    app:behavior_peekHeight="104dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <TextView
@@ -19,13 +19,13 @@
         android:padding="4dp"
         android:paddingStart="12dp"
         android:textSize="12dp"
-        android:background="#333333"
+        android:background="@drawable/bg_grad"
         android:textColor="#dfddde"/>
 
     <RelativeLayout
         android:id="@+id/short_bottom_whether"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="84dp">
 
         <TextView
             android:id="@+id/no_info_tv"
@@ -39,51 +39,11 @@
 
         <include layout="@layout/progress_bar" />
 
-        <RelativeLayout
-            android:id="@+id/weather_info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:padding="4dp">
-
-            <ImageView
-                android:id="@+id/icon_desc"
-                android:layout_width="40dp"
-                android:layout_height="44dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:scaleType="center"
-                />
-
-            <TextView
-                android:id="@+id/temp_main"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/icon_desc"
-                android:textSize="32dp" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/temp_main"
-                android:layout_toRightOf="@id/icon_desc"/>
-
-            <CheckBox
-                android:id="@+id/add_to_favorites"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:button="@drawable/bg_check_box_favorites" />
-        </RelativeLayout>
+        <include layout="@layout/bottom_sheet_cur_weather"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="bottom2" />
+    <include layout="@layout/bottom_sheet_forecast"/>
 
 </LinearLayout>

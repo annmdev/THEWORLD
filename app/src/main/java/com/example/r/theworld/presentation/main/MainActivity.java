@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                         Log.d("aaaaaaaa", "onNavigationItemSelected: " + fm.findFragmentByTag(TAG_FAVORITES_FRAG));
-                        if (!(fm.getFragments().get(fm.getFragments().size() - 1) instanceof FavoritesListFragment)) {
+                        if (!(fragment instanceof FavoritesListFragment)) {
 //                            if (getSupportFragmentManager().findFragmentByTag(TAG_FAVORITES_FRAG) != null) {
 //                                getSupportFragmentManager().popBackStack();
 //                                Log.d("aaaaaaaa", "onNavigationItemSelected: here");
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.map:
                         Log.d("aaaaaaaa", "onNavigationItemSelected: " + fm.findFragmentByTag(TAG_HOME_FRAG));
-                        if (!(fm.getFragments().get(fm.getFragments().size() - 1) instanceof HomeFragment)) {
+                        if (!(fragment instanceof HomeFragment)) {
 //                            if (getSupportFragmentManager().findFragmentByTag(TAG_HOME_FRAG) != null) {
 //                                getSupportFragmentManager().popBackStack();
 //                                Log.d("aaaaaaaa", "onNavigationItemSelected: here");
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
+        this.fragment = fragment;
         fm.beginTransaction()
                 .replace(R.id.frag_container, fragment, tag)
                 .addToBackStack(tag)

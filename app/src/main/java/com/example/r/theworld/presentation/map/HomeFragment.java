@@ -50,6 +50,9 @@ public class HomeFragment extends BaseMapFragment {
     private TextView noInfoTV;
     private Toolbar toolbar;
     private ImageView icon;
+    private TextView localTime;
+    private TextView wind;
+    private TextView humidity;
 
     private WeatherLoader weatherLoader;
     private WeatherLoader searchLoader;
@@ -85,7 +88,7 @@ public class HomeFragment extends BaseMapFragment {
             weatherLoader = new WeatherLoader(new WeatherLoader.Listener() {
                 @Override
                 public void setData(Response<WeatherResponse> data) {
-                    HomeFragment.this.setData(data);
+                    HomeFragment.this.setData(data.body());
                 }
 
                 @Override
@@ -106,7 +109,7 @@ public class HomeFragment extends BaseMapFragment {
                     HomeFragment.this.setOnMarker(latLng);
                     HomeFragment.this.goToPosition(latLng);
 
-                    HomeFragment.this.setData(data);
+                    HomeFragment.this.setData(data.body());
                 }
 
                 @Override
@@ -215,6 +218,9 @@ public class HomeFragment extends BaseMapFragment {
         noInfoTV = view.findViewById(R.id.no_info_tv);
         toolbar = view.findViewById(R.id.toolbar);
         icon = view.findViewById(R.id.icon_desc);
+        localTime = view.findViewById(R.id.cur_data);
+        wind = view.findViewById(R.id.wind);
+        humidity = view.findViewById(R.id.humidity);
     }
 
     private void inflateMenu() {
@@ -262,14 +268,17 @@ public class HomeFragment extends BaseMapFragment {
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_finish)));
     }
 
-    private void setData(Response<WeatherResponse> data) {
+    private void setData(WeatherResponse data) {
         noInfoTV.setVisibility(View.GONE);
-        location = data.body().location.name;
-        mainTemp.setText(data.body().current.temp + "°C");
-        description.setText(data.body().current.condition.description);
-        place.setText(location + ", " + data.body().location.country);
+        location = data.location.name;
+        mainTemp.setText(data.current.temp + "°C");
+        description.setText(data.current.condition.description);
+        place.setText(location + ", " + data.location.country);
+        localTime.setText(data.location.localTime);
+        wind.setText(data.current.wind  + " km/h");
+        humidity.setText(data.current.humidity + "%");
 
-        icon.setImageDrawable(assetsData.getDrawable(data.body().current.condition.icon.substring(16)));
+        icon.setImageDrawable(assetsData.getDrawable(data.current.condition.icon.substring(16)));
         favorites.setChecked(favoritesDatabase.contains(location));
 
         visible();
