@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/weather_info_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/icon_desc"
+        android:layout_width="40dp"
+        android:layout_height="44dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
+        android:scaleType="center"
+        />
+
+    <TextView
+        android:id="@+id/temp_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/icon_desc"
+        android:textSize="32dp"
+        android:textColor="#333"/>
+
+    <ImageView
+        android:id="@+id/wind_picture"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_toRightOf="@id/temp_main"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_wind"
+        />
+
+    <TextView
+        android:id="@+id/wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/wind_picture"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
+        android:textSize="12dp"
+        />
+
+    <ImageView
+        android:id="@+id/humidity_picture"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_toRightOf="@id/temp_main"
+        android:layout_below="@id/wind_picture"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_humidity"
+        />
+
+    <TextView
+        android:id="@+id/humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wind"
+        android:layout_marginLeft="4dp"
+        android:textSize="12dp"
+        android:layout_toRightOf="@id/humidity_picture"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/temp_main"
+        android:layout_toRightOf="@id/icon_desc"/>
+
+    <CheckBox
+        android:id="@+id/add_to_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:button="@drawable/bg_check_box_favorites" />
+
+    <TextView
+        android:id="@+id/cur_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="12dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="2dp"/>
+</RelativeLayout>

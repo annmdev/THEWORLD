@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_bottom_sheet_forecast"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TUE"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:text="AUG 8"
+        android:textSize="16dp"
+        android:textColor="#2196f3"
+        />
+
+    <ImageView
+        android:id="@+id/icon_desc_forecast"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_toRightOf="@id/day_of_week"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_humidity"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="4dp"
+        />
+
+    <TextView
+        android:id="@+id/desc_forecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/icon_desc_forecast"
+        android:textSize="14dp"
+        android:text="Moderate or heavy rain shower" />
+
+    <TextView
+        android:id="@+id/temp_forecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/icon_desc_forecast"
+        android:textSize="20dp"
+        android:textColor="#333"
+        android:text="+1..2C" />
+
+    <ImageView
+        android:id="@+id/humidity_picture_fc"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@id/humidity_fc"
+        android:src="@drawable/ic_humidity"
+        />
+
+    <TextView
+        android:id="@+id/humidity_fc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_alignParentEnd="true"
+        android:text="23%"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"/>
+
+</RelativeLayout>
