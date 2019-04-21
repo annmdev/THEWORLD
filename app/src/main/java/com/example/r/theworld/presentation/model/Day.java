@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Day {
 
-    @SerializedName("avgtemp_c")
-    public double temp;
+    @SerializedName("mintemp_c")
+    public double mintemp;
+
+    @SerializedName("maxtemp_c")
+    public double maxtemp;
 
     @SerializedName("condition")
     public Condition condition;

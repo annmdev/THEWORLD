@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.r.theworld.R;
+import com.example.r.theworld.presentation.adapter.ForecastAdapter;
 import com.example.r.theworld.presentation.common.BaseMapFragment;
 import com.example.r.theworld.presentation.favorites.FavoritesDatabase;
 import com.example.r.theworld.presentation.loader.AssetsData;
@@ -31,6 +34,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Response;
 
@@ -57,6 +65,8 @@ public class HomeFragment extends BaseMapFragment {
     private WeatherLoader weatherLoader;
     private WeatherLoader searchLoader;
     private String location;
+    private ForecastAdapter forecastAdapter;
+    private RecyclerView forecastList;
 
     private GoogleMap googleMap;
 
@@ -79,8 +89,21 @@ public class HomeFragment extends BaseMapFragment {
 
         favoritesDatabase = FavoritesDatabase.create(getContext());
 
+
+        if (assetsData == null){
+            assetsData = new AssetsData(getActivity().getAssets());
+        }
+
+        if (forecastAdapter == null){
+            forecastAdapter = new ForecastAdapter(assetsData);
+        }
+
         initViews(view);
         inflateMenu();
+
+        forecastList.setAdapter(forecastAdapter);
+        forecastList.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false));
 
         toolbar.setTitle("Map");
 
@@ -135,9 +158,6 @@ public class HomeFragment extends BaseMapFragment {
             }
         });
 
-        if (assetsData == null){
-            assetsData = new AssetsData(getActivity().getAssets());
-        }
 
     }
 
@@ -221,6 +241,7 @@ public class HomeFragment extends BaseMapFragment {
         localTime = view.findViewById(R.id.cur_data);
         wind = view.findViewById(R.id.wind);
         humidity = view.findViewById(R.id.humidity);
+        forecastList = view.findViewById(R.id.rv_forecast);
     }
 
     private void inflateMenu() {
@@ -271,7 +292,7 @@ public class HomeFragment extends BaseMapFragment {
     private void setData(WeatherResponse data) {
         noInfoTV.setVisibility(View.GONE);
         location = data.location.name;
-        mainTemp.setText(data.current.temp + "°C");
+        mainTemp.setText(((int) Math.round(data.current.temp_c)) + "°C");
         description.setText(data.current.condition.description);
         place.setText(location + ", " + data.location.country);
         localTime.setText(data.location.localTime);
@@ -280,6 +301,8 @@ public class HomeFragment extends BaseMapFragment {
 
         icon.setImageDrawable(assetsData.getDrawable(data.current.condition.icon.substring(16)));
         favorites.setChecked(favoritesDatabase.contains(location));
+
+        forecastAdapter.setData(data.forecast.forecastList);
 
         visible();
     }

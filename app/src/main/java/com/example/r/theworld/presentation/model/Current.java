@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Current {
 
-    public int temp;
-
     @SerializedName("temp_c")
     public double temp_c;
 

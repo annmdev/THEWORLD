@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/home/r/Загрузки/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_my_location_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/r/Загрузки/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_down_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,9 +34,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Загрузки/icons8-влажный-96.png" />
-                                      <entry key="outputName" value="ic_humidity" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Загрузки/icons8-город-60.png" />
+                                      <entry key="outputName" value="ic_city" />
                                       <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="757575" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -55,6 +56,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>

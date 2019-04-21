@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_bottom_sheet_forecast"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:paddingBottom="6dp">
+    android:layout_height="wrap_content"
+    android:paddingBottom="6dp"
+    android:background="#22B2B9E1">
 
     <TextView
         android:id="@+id/day_of_week"
-        android:layout_width="wrap_content"
+        android:layout_width="84dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="TUE"
@@ -17,7 +18,7 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/icon_desc_forecast"
         android:layout_marginStart="10dp"
         android:text="AUG 8"
         android:textSize="16dp"
@@ -31,7 +32,6 @@
         android:layout_toRightOf="@id/day_of_week"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_humidity"
-        android:layout_marginLeft="44dp"
         android:layout_marginRight="4dp"
         />
 
@@ -39,8 +39,8 @@
         android:id="@+id/desc_forecast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/icon_desc_forecast"
+        android:layout_below="@id/icon_desc_forecast"
         android:textSize="14dp"
         android:text="Moderate or heavy rain shower" />
 
