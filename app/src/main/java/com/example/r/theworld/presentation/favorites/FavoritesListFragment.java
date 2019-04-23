@@ -11,11 +11,18 @@ import android.widget.TextView;
 import com.example.r.theworld.R;
 import com.example.r.theworld.presentation.adapter.FavAdapter;
 import com.example.r.theworld.presentation.common.BaseFragment;
+import com.example.r.theworld.presentation.loader.AssetsData;
+import com.example.r.theworld.presentation.loader.WeatherLoader;
+import com.example.r.theworld.presentation.model.WeatherResponse;
 
 import java.util.Collections;
 import java.util.List;
 
+import retrofit2.Response;
+
 public class FavoritesListFragment extends BaseFragment {
+
+    private WeatherLoader weatherLoader;
 
     public static FavoritesListFragment newInstance(){
         return new FavoritesListFragment();
@@ -44,7 +51,7 @@ public class FavoritesListFragment extends BaseFragment {
 
             final FavAdapter adapter = new FavAdapter(new FavAdapter.Listener() {
                 @Override
-                public void onChecked(String place) {
+                public void onDeleteClicked(String place) {
                     favoritesDatabase.delete(place);
                 }
 
@@ -53,7 +60,12 @@ public class FavoritesListFragment extends BaseFragment {
                     tvForEmptyList.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 }
-            });
+
+                @Override
+                public WeatherResponse loadWeather(String place) {
+                    return null;
+                }
+            }, new AssetsData(getActivity().getAssets()), getContext());
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                     LinearLayoutManager.VERTICAL, false));
